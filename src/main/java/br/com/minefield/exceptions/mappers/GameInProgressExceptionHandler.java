@@ -8,7 +8,7 @@ import br.com.minefield.dto.ErrorDTO;
 import br.com.minefield.exceptions.GameInProgressException;
 
 @Provider
-public class GameInProgressExceptionMapper implements ExceptionMapper<GameInProgressException> {
+public class GameInProgressExceptionHandler implements ExceptionMapper<GameInProgressException> {
 
     @Override
     public Response toResponse(GameInProgressException exception) {

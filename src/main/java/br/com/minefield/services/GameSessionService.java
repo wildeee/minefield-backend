@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 import br.com.minefield.domain.GameSession;
 import br.com.minefield.dto.GameDTO;
 import br.com.minefield.exceptions.GameInProgressException;
+import br.com.minefield.exceptions.TooMuchBombsException;
 import br.com.minefield.repository.GameSessionRepository;
 
 @ApplicationScoped
@@ -27,6 +28,7 @@ public class GameSessionService {
     @Transactional
     public GameSession newGame(GameDTO game) {
         validateGameInProgress();
+        validateBombsAmount(game);
         GameSession gameSession = toGameSession(game);
         gameSession.persist();
         return gameSession;
@@ -48,4 +50,10 @@ public class GameSessionService {
         }
     }
 
+    private void validateBombsAmount(GameDTO game) {
+        Integer maximumBombsAmount = game.rows * game.cols;
+        if (game.bombsAmount > maximumBombsAmount) {
+            throw new TooMuchBombsException(maximumBombsAmount);
+        }
+    }
 }
