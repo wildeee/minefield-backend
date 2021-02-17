@@ -1,5 +1,6 @@
 package br.com.minefield.resources;
 
+import javax.validation.Valid;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -23,7 +24,7 @@ public class GameSessionResource {
     }
 
     @POST
-    public GameSession newSession(GameDTO game) {
+    public GameSession newSession(@Valid GameDTO game) {
         return gameSessionService.newGame(game);
     }
 }
