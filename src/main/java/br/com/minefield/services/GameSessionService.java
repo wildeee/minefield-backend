@@ -16,9 +16,11 @@ import br.com.minefield.repository.GameSessionRepository;
 public class GameSessionService {
 
     private GameSessionRepository repository;
+    private MapService mapService;
 
-    public GameSessionService(GameSessionRepository repository) {
+    public GameSessionService(GameSessionRepository repository, MapService mapService) {
         this.repository = repository;
+        this.mapService = mapService;
     }
 
     public GameSession findCurrentGame() {
@@ -31,7 +33,14 @@ public class GameSessionService {
         validateBombsAmount(game);
         GameSession gameSession = toGameSession(game);
         gameSession.persist();
+        mapService.generateMap(gameSession);
         return gameSession;
+    }
+
+    @Transactional
+    public boolean deleteGame() {
+        mapService.deleteMap();
+        return GameSession.deleteAll() > 0L;
     }
 
     private static GameSession toGameSession(GameDTO game) {

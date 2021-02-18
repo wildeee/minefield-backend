@@ -32,7 +32,7 @@ public class GameSession extends PanacheEntity {
         this.bombsAmount = builder.bombsAmount;
     }
 
-    protected GameSession() { /* For Quarkus */ }
+    protected GameSession() { /* For Hibernate */ }
 
     public Integer getRows() {
         return rows;

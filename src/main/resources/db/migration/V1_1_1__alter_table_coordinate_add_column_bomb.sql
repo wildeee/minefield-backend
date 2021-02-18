@@ -1,0 +1,5 @@
+ALTER TABLE coordinate
+ADD COLUMN bomb boolean NOT NULL DEFAULT false;
+
+ALTER TABLE coordinate
+ALTER COLUMN bomb DROP DEFAULT;
