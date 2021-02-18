@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
@@ -24,12 +26,17 @@ public class GameSession extends PanacheEntity {
     @Column(name = "bombs_amount", nullable = false)
     private Integer bombsAmount;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private GameStatus status;
+
     private GameSession(Builder builder) {
         this.id = builder.id;
         this.rows = builder.rows;
         this.cols = builder.cols;
         this.startedAt = builder.startedAt;
         this.bombsAmount = builder.bombsAmount;
+        this.status = builder.status;
     }
 
     protected GameSession() { /* For Hibernate */ }
@@ -50,6 +57,10 @@ public class GameSession extends PanacheEntity {
         return startedAt;
     }
 
+    public GameStatus getStatus() {
+        return status;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
@@ -60,6 +71,7 @@ public class GameSession extends PanacheEntity {
         private Integer cols;
         private LocalDateTime startedAt;
         private Integer bombsAmount;
+        private GameStatus status;
 
         private Builder() {
         }
@@ -86,6 +98,11 @@ public class GameSession extends PanacheEntity {
 
         public Builder withBombsAmount(Integer bombsAmount) {
             this.bombsAmount = bombsAmount;
+            return this;
+        }
+
+        public Builder withStatus(GameStatus status) {
+            this.status = status;
             return this;
         }
 

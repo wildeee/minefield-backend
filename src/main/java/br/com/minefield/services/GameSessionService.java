@@ -7,6 +7,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
 
 import br.com.minefield.domain.GameSession;
+import br.com.minefield.domain.GameStatus;
 import br.com.minefield.dto.GameDTO;
 import br.com.minefield.exceptions.GameInProgressException;
 import br.com.minefield.exceptions.TooMuchBombsException;
@@ -31,7 +32,7 @@ public class GameSessionService {
     public GameSession newGame(GameDTO game) {
         validateGameInProgress();
         validateBombsAmount(game);
-        GameSession gameSession = toGameSession(game);
+        GameSession gameSession = toNewGameSession(game);
         gameSession.persist();
         mapService.generateMap(gameSession);
         return gameSession;
@@ -43,12 +44,13 @@ public class GameSessionService {
         return GameSession.deleteAll() > 0L;
     }
 
-    private static GameSession toGameSession(GameDTO game) {
+    private static GameSession toNewGameSession(GameDTO game) {
         return GameSession.builder()
                 .withRows(game.rows)
                 .withCols(game.cols)
                 .withBombsAmount(game.bombsAmount)
                 .withStartedAt(LocalDateTime.now(Clock.systemUTC()))
+                .withStatus(GameStatus.IN_PROGRESS)
                 .build();
     }
 
