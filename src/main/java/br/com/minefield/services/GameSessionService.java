@@ -2,9 +2,9 @@ package br.com.minefield.services;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.transaction.Transactional;
 
 import br.com.minefield.domain.GameSession;
 import br.com.minefield.domain.GameStatus;
@@ -24,11 +24,10 @@ public class GameSessionService {
         this.mapService = mapService;
     }
 
-    public GameSession findCurrentGame() {
+    public Optional<GameSession> findCurrentGame() {
         return repository.findGameSession();
     }
 
-    @Transactional
     public GameSession newGame(GameDTO game) {
         validateGameInProgress();
         validateBombsAmount(game);
@@ -38,7 +37,6 @@ public class GameSessionService {
         return gameSession;
     }
 
-    @Transactional
     public boolean deleteGame() {
         mapService.deleteMap();
         return GameSession.deleteAll() > 0L;
@@ -66,5 +64,15 @@ public class GameSessionService {
         if (game.bombsAmount > maximumBombsAmount) {
             throw new TooMuchBombsException(maximumBombsAmount);
         }
+    }
+
+    public void lose(GameSession game) {
+        game.setStatus(GameStatus.LOSE);
+        game.persist();
+    }
+
+    public void win(GameSession game) {
+        game.setStatus(GameStatus.WIN);
+        game.persist();
     }
 }

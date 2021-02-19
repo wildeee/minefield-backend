@@ -65,12 +65,29 @@ public class Coordinate extends PanacheEntity {
         return revealed;
     }
 
+    public void setRevealed(boolean revealed) {
+        this.revealed = revealed;
+    }
+
     public Boolean getFlagged() {
         return flagged;
     }
 
     public Boolean getBomb() {
         return bomb;
+    }
+
+    @Override
+    public String toString() {
+        return "Coordinate [x=" + x
+                + ", y=" + y
+                + ", gameSession=" + gameSession
+                + ", bombsAround=" + bombsAround
+                + ", revealed=" + revealed
+                + ", flagged=" + flagged
+                + ", bomb=" + bomb
+                + ", id=" + id
+                + "]";
     }
 
     public static Builder builder() {

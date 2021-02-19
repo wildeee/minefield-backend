@@ -61,6 +61,10 @@ public class GameSession extends PanacheEntity {
         return status;
     }
 
+    public void setStatus(GameStatus status) {
+        this.status = status;
+    }
+
     public static Builder builder() {
         return new Builder();
     }

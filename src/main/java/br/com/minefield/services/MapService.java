@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.transaction.Transactional;
 
 import br.com.minefield.domain.Coordinate;
 import br.com.minefield.domain.GameSession;
@@ -15,13 +14,11 @@ import io.quarkus.panache.common.Sort;
 @ApplicationScoped
 public class MapService {
 
-    @Transactional
     public void generateMap(GameSession gameSession) {
         List<Coordinate> map = new MapGenerator(gameSession).generate();
         Coordinate.persist(map);
     }
 
-    @Transactional
     public void deleteMap() {
         Coordinate.deleteAll();
     }
