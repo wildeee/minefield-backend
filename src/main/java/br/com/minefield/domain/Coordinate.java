@@ -73,6 +73,10 @@ public class Coordinate extends PanacheEntity {
         return flagged;
     }
 
+    public void setFlagged(boolean flagged) {
+        this.flagged = flagged;
+    }
+
     public Boolean getBomb() {
         return bomb;
     }
